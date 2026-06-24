@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Landmark } from "lucide-react";
+import { Landmark, ShieldCheck, Lock, BadgeCheck } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function AuthLayout({
@@ -8,17 +8,59 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <Landmark className="h-6 w-6 text-primary" />
-          Aegis Bank
+    <div className="grid min-h-screen lg:grid-cols-2">
+      {/* Brand panel */}
+      <div className="relative hidden flex-col justify-between overflow-hidden bg-navy-gradient p-12 text-white lg:flex">
+        <div className="absolute inset-0 bg-grid opacity-20" />
+        <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
+        <Link href="/" className="relative flex items-center gap-2 text-xl font-extrabold tracking-tight">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 backdrop-blur">
+            <Landmark className="h-5 w-5" />
+          </span>
+          Aegis<span className="text-gold">Bank</span>
         </Link>
-        <ThemeToggle />
-      </header>
-      <main className="flex flex-1 items-center justify-center px-6 py-10">
-        <div className="w-full max-w-md">{children}</div>
-      </main>
+
+        <div className="relative max-w-md">
+          <h2 className="text-3xl font-extrabold leading-tight tracking-tight">
+            Banking that feels effortless &amp; secure.
+          </h2>
+          <p className="mt-4 text-white/70">
+            Join a platform engineered with the security a Fortune 500 institution
+            demands — protected down to the database row.
+          </p>
+          <ul className="mt-8 space-y-4 text-sm">
+            <li className="flex items-center gap-3">
+              <ShieldCheck className="h-5 w-5 text-gold" /> Row-Level Security on every account
+            </li>
+            <li className="flex items-center gap-3">
+              <Lock className="h-5 w-5 text-gold" /> 256-bit encrypted document storage
+            </li>
+            <li className="flex items-center gap-3">
+              <BadgeCheck className="h-5 w-5 text-gold" /> FDIC insured · Member SIPC
+            </li>
+          </ul>
+        </div>
+
+        <p className="relative text-xs text-white/50">
+          © {new Date().getFullYear()} Aegis Bank — a portfolio demo.
+        </p>
+      </div>
+
+      {/* Form panel */}
+      <div className="flex flex-col">
+        <header className="flex items-center justify-between p-6 lg:justify-end">
+          <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight lg:hidden">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Landmark className="h-4 w-4" />
+            </span>
+            Aegis<span className="text-gold">Bank</span>
+          </Link>
+          <ThemeToggle />
+        </header>
+        <main className="flex flex-1 items-center justify-center px-6 pb-12">
+          <div className="w-full max-w-md">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }

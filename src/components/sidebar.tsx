@@ -29,9 +29,11 @@ export function Sidebar({ isAdmin }: { isAdmin: boolean }) {
 
   return (
     <aside className="hidden w-64 shrink-0 border-r border-border bg-card md:block">
-      <div className="flex h-16 items-center gap-2 border-b border-border px-6 font-bold">
-        <Landmark className="h-6 w-6 text-primary" />
-        Aegis Bank
+      <div className="flex h-16 items-center gap-2 border-b border-border px-6 text-lg font-extrabold tracking-tight">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <Landmark className="h-5 w-5" />
+        </span>
+        Aegis<span className="text-gold">Bank</span>
       </div>
       <nav className="space-y-1 p-4">
         {links.map((item) => {

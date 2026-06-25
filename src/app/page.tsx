@@ -47,6 +47,7 @@ export default function Home() {
           },
         ]}
         cta="Explore investing"
+        href="/products/investing"
       />
 
       <EditorialSection
@@ -66,6 +67,7 @@ export default function Home() {
           },
         ]}
         cta="Explore home loans"
+        href="/products/home-loans"
       />
 
       {/* Full-bleed editorial CTA */}

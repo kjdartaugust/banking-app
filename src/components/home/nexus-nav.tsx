@@ -4,16 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { CalendarClock, Headphones, Search, Menu, X } from "lucide-react";
 import { NexusLogo } from "@/components/home/nexus-logo";
+import { products } from "@/lib/products";
 
-const categories = [
-  "Checking",
-  "Savings & CDs",
-  "Credit Cards",
-  "Home Loans",
-  "Auto",
-  "Investing",
-  "Travel",
-];
+const categories = products.map((p) => ({
+  label: p.navLabel,
+  href: `/products/${p.slug}`,
+}));
 
 export function NexusNav() {
   const [open, setOpen] = useState(false);
@@ -48,11 +44,11 @@ export function NexusNav() {
           <nav className="hidden items-center gap-7 lg:flex">
             {categories.map((c) => (
               <Link
-                key={c}
-                href="/register"
+                key={c.href}
+                href={c.href}
                 className="border-b-2 border-transparent py-1 text-sm font-semibold text-slate-700 transition-colors hover:border-nexus-cobalt hover:text-nexus-navy"
               >
-                {c}
+                {c.label}
               </Link>
             ))}
           </nav>
@@ -80,12 +76,12 @@ export function NexusNav() {
             <nav className="mx-auto flex max-w-7xl flex-col px-6 py-2">
               {categories.map((c) => (
                 <Link
-                  key={c}
-                  href="/register"
+                  key={c.href}
+                  href={c.href}
                   className="border-b border-slate-100 py-3 text-sm font-semibold text-slate-700"
                   onClick={() => setOpen(false)}
                 >
-                  {c}
+                  {c.label}
                 </Link>
               ))}
               <Link

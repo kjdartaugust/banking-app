@@ -15,6 +15,7 @@ export function EditorialSection({
   imageSide = "left",
   highlights,
   cta = "Learn more",
+  href = "/register",
 }: {
   eyebrow: string;
   heading: string;
@@ -23,6 +24,7 @@ export function EditorialSection({
   imageSide?: "left" | "right";
   highlights: Highlight[];
   cta?: string;
+  href?: string;
 }) {
   const imageFirst = imageSide === "left";
 
@@ -62,7 +64,7 @@ export function EditorialSection({
           </div>
 
           <Link
-            href="/register"
+            href={href}
             className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-nexus-cobalt hover:underline"
           >
             {cta} <ArrowRight className="h-4 w-4" />

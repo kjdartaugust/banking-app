@@ -242,3 +242,22 @@ create policy "kyc_docs_read_own" on storage.objects
     bucket_id = 'kyc-documents'
     and ((storage.foldername(name))[1] = auth.uid()::text or public.is_admin())
   );
+
+-- ============================================================================
+--  Grants — REQUIRED. Tables created via SQL with RLS enabled have policies
+--  but no table-level privileges, so every query fails with
+--  "42501: permission denied for table ...". RLS still gates rows per user;
+--  these grants just allow the API roles to reach the tables at all.
+-- ============================================================================
+grant usage on schema public to anon, authenticated, service_role;
+
+grant all on all tables    in schema public to anon, authenticated, service_role;
+grant all on all sequences in schema public to anon, authenticated, service_role;
+grant all on all functions in schema public to anon, authenticated, service_role;
+
+alter default privileges in schema public
+  grant all on tables to anon, authenticated, service_role;
+alter default privileges in schema public
+  grant all on sequences to anon, authenticated, service_role;
+alter default privileges in schema public
+  grant all on functions to anon, authenticated, service_role;

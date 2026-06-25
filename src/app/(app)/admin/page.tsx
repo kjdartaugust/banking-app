@@ -8,7 +8,10 @@ import {
   setUserRole,
   fundAccount,
 } from "@/app/actions/admin";
+import { AdminCharts } from "@/components/admin/admin-charts";
 import type { Account, Profile } from "@/lib/types";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default async function AdminPage() {
   await requireAdmin();
@@ -29,6 +32,28 @@ export default async function AdminPage() {
     .filter((a) => a.type !== "loan")
     .reduce((s, a) => s + Number(a.balance), 0);
 
+  // New users — last 6 months.
+  const now = new Date();
+  const signupBuckets = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+    return { key: `${d.getFullYear()}-${d.getMonth()}`, month: MONTHS[d.getMonth()], count: 0 };
+  });
+  const signupIndex = new Map(signupBuckets.map((b) => [b.key, b]));
+  for (const u of users) {
+    const d = new Date(u.created_at);
+    const b = signupIndex.get(`${d.getFullYear()}-${d.getMonth()}`);
+    if (b) b.count += 1;
+  }
+  const signups = signupBuckets.map(({ month, count }) => ({ month, count }));
+
+  // Deposits by account type.
+  const deposits = (["checking", "savings", "loan"] as const).map((type) => ({
+    type: type[0].toUpperCase() + type.slice(1),
+    amount: allAccounts
+      .filter((a) => a.type === type)
+      .reduce((s, a) => s + Number(a.balance), 0),
+  }));
+
   return (
     <div className="space-y-6">
       <div>
@@ -43,6 +68,8 @@ export default async function AdminPage() {
         <Stat label="Total accounts" value={String(allAccounts.length)} />
         <Stat label="Total deposits" value={formatCurrency(totalDeposits)} />
       </div>
+
+      <AdminCharts signups={signups} deposits={deposits} />
 
       {/* Users + KYC */}
       <div className="card p-5">

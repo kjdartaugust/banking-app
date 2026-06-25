@@ -25,25 +25,38 @@ export async function getProfile(): Promise<Profile> {
   if (!profile) {
     // Self-heal: `profiles` has no INSERT policy by design (the trigger owns
     // creation), so use the admin client to backfill the missing row.
-    const admin = createAdminClient();
-    await admin.from("profiles").upsert(
-      {
-        id: user.id,
-        email: user.email,
-        full_name:
-          (user.user_metadata as { full_name?: string } | null)?.full_name ?? null,
-      },
-      { onConflict: "id" }
-    );
+    let healError = "";
+    try {
+      const admin = createAdminClient();
+      await admin.from("profiles").upsert(
+        {
+          id: user.id,
+          email: user.email,
+          full_name:
+            (user.user_metadata as { full_name?: string } | null)?.full_name ?? null,
+        },
+        { onConflict: "id" }
+      );
+    } catch (e) {
+      healError = e instanceof Error ? e.message : String(e);
+    }
     const reread = await supabase
       .from("profiles")
       .select("*")
       .eq("id", user.id)
       .single();
     profile = reread.data;
+
+    // If we still can't resolve a profile for an authenticated user, throw so
+    // the error boundary renders a real message — never redirect to /login here
+    // (that risks an auth bounce loop).
+    if (!profile) {
+      throw new Error(
+        `Could not load your profile.${healError ? ` (${healError})` : ""}`
+      );
+    }
   }
 
-  if (!profile) redirect("/login");
   return profile as Profile;
 }
 

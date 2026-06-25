@@ -135,6 +135,34 @@ export async function getTransactions(
   return (data as Transaction[]) ?? [];
 }
 
+/** A single account owned by the current user, or null if not found/owned. */
+export async function getAccount(id: string): Promise<Account | null> {
+  const user = await requireUser();
+  const db = createAdminClient();
+  const { data } = await db
+    .from("accounts")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .maybeSingle();
+  return (data as Account | null) ?? null;
+}
+
+/** All transactions touching a given account (newest first). */
+export async function getAccountTransactions(
+  accountId: string,
+  limit = 200
+): Promise<Transaction[]> {
+  const db = createAdminClient();
+  const { data } = await db
+    .from("transactions")
+    .select("*")
+    .or(`from_account_id.eq.${accountId},to_account_id.eq.${accountId}`)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  return (data as Transaction[]) ?? [];
+}
+
 export async function requireAdmin(): Promise<Profile> {
   const profile = await getProfile();
   if (profile.role !== "admin") redirect("/dashboard");

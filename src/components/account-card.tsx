@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CreditCard, PiggyBank, Landmark } from "lucide-react";
 import { formatCurrency, maskAccountNumber } from "@/lib/utils";
 import { Badge } from "@/components/badge";
@@ -15,7 +16,10 @@ export function AccountCard({ account }: { account: Account }) {
 
   if (featured) {
     return (
-      <div className="card-hover relative overflow-hidden rounded-lg bg-navy-gradient p-5 text-white shadow-lg">
+      <Link
+        href={`/accounts/${account.id}`}
+        className="card-hover relative block overflow-hidden rounded-lg bg-navy-gradient p-5 text-white shadow-lg"
+      >
         <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="relative flex items-start justify-between">
           <div className="flex items-center gap-2">
@@ -35,12 +39,12 @@ export function AccountCard({ account }: { account: Account }) {
           {formatCurrency(account.balance, account.currency)}
         </p>
         <p className="relative mt-1 text-xs text-white/60">Available balance</p>
-      </div>
+      </Link>
     );
   }
 
   return (
-    <div className="card card-hover p-5">
+    <Link href={`/accounts/${account.id}`} className="card card-hover block p-5">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -63,6 +67,6 @@ export function AccountCard({ account }: { account: Account }) {
           {account.type === "loan" ? "APR" : "APY"} {account.interest_rate}%
         </p>
       )}
-    </div>
+    </Link>
   );
 }

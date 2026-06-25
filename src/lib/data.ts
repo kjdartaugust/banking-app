@@ -21,35 +21,55 @@ async function requireUser(): Promise<User> {
 
 export async function getProfile(): Promise<Profile> {
   const user = await requireUser();
-  const db = createAdminClient();
 
-  let { data: profile } = await db
+  let db;
+  try {
+    db = createAdminClient();
+  } catch (e) {
+    throw new Error(
+      `Admin client init failed (SUPABASE_SERVICE_ROLE_KEY likely missing in this environment): ${
+        e instanceof Error ? e.message : String(e)
+      }`
+    );
+  }
+
+  const { data: profile, error: readErr } = await db
     .from("profiles")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
+  if (readErr) {
+    throw new Error(`profiles read error [${readErr.code}]: ${readErr.message}`);
+  }
+  if (profile) return profile as Profile;
 
-  if (!profile) {
-    // Self-heal: backfill a profile if the signup trigger never created one.
-    await db.from("profiles").upsert(
-      {
-        id: user.id,
-        email: user.email,
-        full_name:
-          (user.user_metadata as { full_name?: string } | null)?.full_name ?? null,
-      },
-      { onConflict: "id" }
+  // Self-heal: backfill a profile if the signup trigger never created one.
+  const { error: upErr } = await db.from("profiles").upsert(
+    {
+      id: user.id,
+      email: user.email,
+      full_name:
+        (user.user_metadata as { full_name?: string } | null)?.full_name ?? null,
+    },
+    { onConflict: "id" }
+  );
+  if (upErr) {
+    throw new Error(
+      `profiles upsert error [${upErr.code}]: ${upErr.message} — if this is an RLS error, the service-role key is wrong (it's the anon key).`
     );
-    const reread = await db
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
-    profile = reread.data;
   }
 
-  if (!profile) throw new Error("Could not load your profile.");
-  return profile as Profile;
+  const { data: again, error: err2 } = await db
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (err2) throw new Error(`profiles reread error [${err2.code}]: ${err2.message}`);
+  if (again) return again as Profile;
+
+  throw new Error(
+    `Profile still missing after upsert for user ${user.id} (${user.email}).`
+  );
 }
 
 export async function getAccounts(): Promise<Account[]> {

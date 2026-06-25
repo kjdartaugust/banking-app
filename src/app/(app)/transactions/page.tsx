@@ -1,32 +1,17 @@
-import { createClient } from "@/lib/supabase/server";
-import { getAccounts } from "@/lib/data";
+import { getAccounts, getTransactions } from "@/lib/data";
 import { TransactionFilters } from "@/components/transaction-filters";
 import { TransactionList } from "@/components/transaction-list";
-import type { Transaction } from "@/lib/types";
 
 export default async function TransactionsPage({
   searchParams,
 }: {
   searchParams: { type?: string; from?: string; to?: string };
 }) {
-  const accounts = await getAccounts();
+  const [accounts, transactions] = await Promise.all([
+    getAccounts(),
+    getTransactions(searchParams),
+  ]);
   const ownedIds = accounts.map((a) => a.id);
-
-  const supabase = createClient();
-  let query = supabase
-    .from("transactions")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(200);
-
-  if (searchParams.type && searchParams.type !== "all") {
-    query = query.eq("type", searchParams.type);
-  }
-  if (searchParams.from) query = query.gte("created_at", searchParams.from);
-  if (searchParams.to) query = query.lte("created_at", `${searchParams.to}T23:59:59`);
-
-  const { data } = await query;
-  const transactions = (data as Transaction[]) ?? [];
 
   return (
     <div className="space-y-6">

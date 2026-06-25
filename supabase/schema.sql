@@ -180,6 +180,12 @@ drop policy if exists "profiles_update_own" on public.profiles;
 create policy "profiles_update_own" on public.profiles
   for update using (id = auth.uid() or public.is_admin());
 
+-- Lets the app self-heal a missing profile row for the current user (the
+-- signup trigger normally owns creation; this is a safety net).
+drop policy if exists "profiles_insert_own" on public.profiles;
+create policy "profiles_insert_own" on public.profiles
+  for insert with check (id = auth.uid());
+
 -- kyc_submissions
 drop policy if exists "kyc_select" on public.kyc_submissions;
 create policy "kyc_select" on public.kyc_submissions

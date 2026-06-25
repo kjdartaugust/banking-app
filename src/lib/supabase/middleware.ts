@@ -7,6 +7,8 @@ const PROTECTED = ["/dashboard", "/transfer", "/transactions", "/accounts", "/ky
 const AUTH_PAGES = ["/login", "/register"];
 
 export async function updateSession(request: NextRequest) {
+  // This response is rebuilt by `setAll` whenever Supabase refreshes the token,
+  // so it always carries the freshest auth cookies.
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -36,17 +38,25 @@ export async function updateSession(request: NextRequest) {
   const isProtected = PROTECTED.some((p) => path.startsWith(p));
   const isAuthPage = AUTH_PAGES.some((p) => path.startsWith(p));
 
-  if (!user && isProtected) {
+  // IMPORTANT: any redirect must carry the cookies Supabase just set on
+  // `response`, otherwise the refreshed session is lost and the app ping-pongs
+  // between /login and /dashboard (ERR_TOO_MANY_REDIRECTS).
+  const redirectWithSession = (pathname: string, withRedirectParam = false) => {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("redirect", path);
-    return NextResponse.redirect(url);
+    url.pathname = pathname;
+    url.search = "";
+    if (withRedirectParam) url.searchParams.set("redirect", path);
+    const redirectResponse = NextResponse.redirect(url);
+    response.cookies.getAll().forEach((cookie) => redirectResponse.cookies.set(cookie));
+    return redirectResponse;
+  };
+
+  if (!user && isProtected) {
+    return redirectWithSession("/login", true);
   }
 
   if (user && isAuthPage) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
-    return NextResponse.redirect(url);
+    return redirectWithSession("/dashboard");
   }
 
   return response;

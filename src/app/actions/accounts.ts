@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getProfile } from "@/lib/data";
 import { generateAccountNumber } from "@/lib/utils";
 import type { AccountType } from "@/lib/types";
 
@@ -9,6 +10,12 @@ export async function openAccount(_prev: unknown, formData: FormData) {
   const type = String(formData.get("type")) as AccountType;
   if (!["checking", "savings", "loan"].includes(type)) {
     return { error: "Invalid account type." };
+  }
+
+  // Verification gate — mirrors a real bank: you must be KYC-approved to open accounts.
+  const profile = await getProfile();
+  if (profile.kyc_status !== "approved") {
+    return { error: "Complete identity verification before opening an account." };
   }
 
   const supabase = createClient();

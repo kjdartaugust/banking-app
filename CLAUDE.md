@@ -68,7 +68,11 @@ is the real authorization boundary; the UI is a thin layer over it.
   sidebar link and `/admin` route are gated on `role='admin'`.
 - KYC: user submits via `/kyc` (optional document upload to the private `kyc-documents`
   bucket, foldered by user id), which flips them to `pending`; an admin approves/rejects.
-- Accounts start at $0. Balances only increase via an admin "Fund" action (a `deposit`
+- **Approval auto-provisions banking** (Chase-style): when an admin approves KYC,
+  `setKycStatus` opens a starter `checking` account with a `$300` welcome bonus
+  (recorded as a `deposit`) — but only if the user has none, so re-approval never
+  duplicates. Opening further accounts (`openAccount`) is gated on `kyc_status='approved'`.
+- After the bonus, balances only increase via an admin "Fund" action (a `deposit`
   transaction) or an incoming transfer.
 
 ## Notes

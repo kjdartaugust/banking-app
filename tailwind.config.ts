@@ -30,6 +30,13 @@ const config: Config = {
         navy: "hsl(var(--navy-deep))",
         success: "hsl(var(--success))",
         danger: "hsl(var(--danger))",
+        chase: {
+          navy: "#003087",
+          blue: "#117ACA",
+          gold: "#B8960C",
+          ink: "#0A0F1C",
+          mist: "#F5F7FA",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -45,6 +52,7 @@ const config: Config = {
           "Segoe UI",
           "sans-serif",
         ],
+        serif: ["Source Serif 4", "Georgia", "Cambria", "serif"],
       },
       keyframes: {
         "fade-up": {

@@ -19,10 +19,10 @@ export function NexusNav() {
       {/* Top utility bar */}
       <div className="border-b border-slate-100 bg-white">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-end gap-6 px-6 text-xs font-medium text-slate-600">
-          <Link href="/register" className="hidden items-center gap-1.5 hover:text-nexus-navy sm:flex">
+          <Link href="/schedule" className="hidden items-center gap-1.5 hover:text-nexus-navy sm:flex">
             <CalendarClock className="h-3.5 w-3.5" /> Schedule a meeting
           </Link>
-          <Link href="/login" className="hidden items-center gap-1.5 hover:text-nexus-navy sm:flex">
+          <Link href="/support" className="hidden items-center gap-1.5 hover:text-nexus-navy sm:flex">
             <Headphones className="h-3.5 w-3.5" /> Customer Service
           </Link>
           <span className="hidden text-slate-300 sm:block">|</span>

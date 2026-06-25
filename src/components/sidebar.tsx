@@ -9,6 +9,7 @@ import {
   Wallet,
   ShieldCheck,
   Users,
+  Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NexusLogo } from "@/components/home/nexus-logo";
@@ -19,6 +20,7 @@ const nav = [
   { href: "/transfer", label: "Transfer", icon: ArrowLeftRight },
   { href: "/transactions", label: "Transactions", icon: Receipt },
   { href: "/kyc", label: "Verification", icon: ShieldCheck },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function Sidebar({ isAdmin }: { isAdmin: boolean }) {

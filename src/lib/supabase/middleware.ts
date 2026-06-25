@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
-const PROTECTED = ["/dashboard", "/transfer", "/transactions", "/accounts", "/kyc", "/admin"];
+const PROTECTED = ["/dashboard", "/transfer", "/transactions", "/accounts", "/kyc", "/admin", "/settings"];
 const AUTH_PAGES = ["/login", "/register"];
 
 export async function updateSession(request: NextRequest) {

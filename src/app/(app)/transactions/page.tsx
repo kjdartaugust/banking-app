@@ -1,6 +1,7 @@
 import { getAccounts, getTransactions } from "@/lib/data";
 import { TransactionFilters } from "@/components/transaction-filters";
 import { TransactionList } from "@/components/transaction-list";
+import { ExportButton } from "@/components/transactions/export-button";
 import { SpendingChart, type MonthlyFlow } from "@/components/dashboard/spending-chart";
 import type { Transaction } from "@/lib/types";
 
@@ -41,11 +42,14 @@ export default async function TransactionsPage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Transactions</h1>
-        <p className="text-sm text-muted-foreground">
-          {transactions.length} record{transactions.length === 1 ? "" : "s"}
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Transactions</h1>
+          <p className="text-sm text-muted-foreground">
+            {transactions.length} record{transactions.length === 1 ? "" : "s"}
+          </p>
+        </div>
+        <ExportButton transactions={transactions} ownedAccountIds={ownedIds} />
       </div>
 
       <div className="glass p-5">

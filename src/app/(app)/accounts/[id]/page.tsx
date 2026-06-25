@@ -5,6 +5,7 @@ import { getAccount, getAccountTransactions } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/badge";
 import { TransactionList } from "@/components/transaction-list";
+import { ExportButton } from "@/components/transactions/export-button";
 import { AnimatedCounter } from "@/components/dashboard/animated-counter";
 import { SpendingChart, type MonthlyFlow } from "@/components/dashboard/spending-chart";
 import type { Transaction } from "@/lib/types";
@@ -102,7 +103,14 @@ export default async function AccountDetailPage({
 
       {/* Transactions */}
       <div className="card p-5">
-        <h2 className="mb-1 text-lg font-semibold">Transaction history</h2>
+        <div className="mb-1 flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Transaction history</h2>
+          <ExportButton
+            transactions={transactions}
+            ownedAccountIds={[account.id]}
+            filename={`nexus-${account.account_number.slice(-4)}-statement.csv`}
+          />
+        </div>
         <TransactionList transactions={transactions} ownedAccountIds={[account.id]} />
       </div>
     </div>

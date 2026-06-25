@@ -66,6 +66,12 @@ update public.profiles set role = 'admin' where email = 'you@example.com';
 The **Admin** link then appears in the sidebar. Use it to approve KYC and fund
 accounts (new accounts start at a $0 balance).
 
+### 5. (Optional) Seed demo data
+
+To make a fresh account look realistic for a portfolio demo, edit the email at the
+top of [`supabase/seed.sql`](supabase/seed.sql) and run it in the SQL editor. It
+marks you verified and adds three funded accounts with a month of transactions.
+
 ## Deploying to Vercel
 
 1. Push this folder to a Git repository.

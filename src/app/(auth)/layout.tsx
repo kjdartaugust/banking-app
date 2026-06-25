@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Landmark, ShieldCheck, Lock, BadgeCheck } from "lucide-react";
+import { ShieldCheck, Lock, BadgeCheck } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { NexusLogo } from "@/components/home/nexus-logo";
 
 export default function AuthLayout({
   children,
@@ -12,12 +13,10 @@ export default function AuthLayout({
       {/* Brand panel */}
       <div className="relative hidden flex-col justify-between overflow-hidden bg-navy-gradient p-12 text-white lg:flex">
         <div className="absolute inset-0 bg-grid opacity-20" />
-        <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
+        <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-primary/30 blur-3xl" />
         <Link href="/" className="relative flex items-center gap-2 text-xl font-extrabold tracking-tight">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 backdrop-blur">
-            <Landmark className="h-5 w-5" />
-          </span>
-          Aegis<span className="text-gold">Bank</span>
+          <NexusLogo className="h-9 w-9 text-white" />
+          Nexus<span className="font-semibold text-white/70">Bank</span>
         </Link>
 
         <div className="relative max-w-md">
@@ -42,7 +41,7 @@ export default function AuthLayout({
         </div>
 
         <p className="relative text-xs text-white/50">
-          © {new Date().getFullYear()} Aegis Bank — a portfolio demo.
+          © {new Date().getFullYear()} Nexus Bank — a portfolio demo.
         </p>
       </div>
 
@@ -50,10 +49,8 @@ export default function AuthLayout({
       <div className="flex flex-col">
         <header className="flex items-center justify-between p-6 lg:justify-end">
           <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight lg:hidden">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Landmark className="h-4 w-4" />
-            </span>
-            Aegis<span className="text-gold">Bank</span>
+            <NexusLogo className="h-8 w-8 text-primary" />
+            Nexus<span className="font-semibold text-muted-foreground">Bank</span>
           </Link>
           <ThemeToggle />
         </header>

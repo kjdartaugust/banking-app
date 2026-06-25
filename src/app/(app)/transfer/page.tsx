@@ -9,7 +9,7 @@ export default async function TransferPage() {
       <div>
         <h1 className="text-2xl font-bold">Transfer funds</h1>
         <p className="text-sm text-muted-foreground">
-          Send money instantly to any Aegis Bank account.
+          Send money instantly to any Nexus Bank account.
         </p>
       </div>
       <TransferForm accounts={accounts} />

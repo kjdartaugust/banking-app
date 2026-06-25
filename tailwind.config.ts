@@ -30,12 +30,13 @@ const config: Config = {
         navy: "hsl(var(--navy-deep))",
         success: "hsl(var(--success))",
         danger: "hsl(var(--danger))",
-        chase: {
-          navy: "#003087",
-          blue: "#117ACA",
-          gold: "#B8960C",
-          ink: "#0A0F1C",
-          mist: "#F5F7FA",
+        nexus: {
+          navy: "#0A1628",
+          cobalt: "#1652F0",
+          platinum: "#E8ECF0",
+          ink: "#0A1628",
+          mist: "#F4F6F9",
+          aqua: "#0FB8C6",
         },
       },
       borderRadius: {
@@ -45,8 +46,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
-          "Plus Jakarta Sans",
           "Inter",
+          "Plus Jakarta Sans",
           "system-ui",
           "-apple-system",
           "Segoe UI",

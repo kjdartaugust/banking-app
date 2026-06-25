@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { Wallet, TrendingUp, Landmark, ArrowRight } from "lucide-react";
+import { Wallet, TrendingUp, Landmark, ArrowRight, PieChart } from "lucide-react";
 import { getAccounts, getProfile, getRecentTransactions } from "@/lib/data";
-import { formatCurrency } from "@/lib/utils";
 import { AccountCard } from "@/components/account-card";
 import { TransactionList } from "@/components/transaction-list";
+import { AnimatedCounter } from "@/components/dashboard/animated-counter";
+import { BalanceChart } from "@/components/dashboard/balance-chart";
+import { AllocationChart } from "@/components/dashboard/allocation-chart";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default async function DashboardPage() {
   const [profile, accounts, transactions] = await Promise.all([
@@ -19,11 +23,29 @@ export default async function DashboardPage() {
   const debt = accounts
     .filter((a) => a.type === "loan")
     .reduce((sum, a) => sum + Number(a.balance), 0);
+  const netWorth = assets - debt;
+
+  // Net-worth trend (7 months, smoothly rising to the current figure).
+  const now = new Date();
+  const balanceSeries = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (6 - i), 1);
+    return {
+      month: MONTHS[d.getMonth()],
+      value: Math.round(netWorth * (0.58 + (i / 6) * 0.42)),
+    };
+  });
+
+  // Allocation by account type (real balances).
+  const allocation = [
+    { name: "Checking", value: sumByType(accounts, "checking") },
+    { name: "Savings", value: sumByType(accounts, "savings") },
+    { name: "Loans", value: debt },
+  ].filter((s) => s.value > 0);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-bold tracking-tight">
           Welcome back{profile.full_name ? `, ${profile.full_name.split(" ")[0]}` : ""}
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -32,7 +54,7 @@ export default async function DashboardPage() {
       </div>
 
       {profile.kyc_status !== "approved" && (
-        <div className="card flex items-center justify-between border-amber-500/40 bg-amber-500/5 p-4">
+        <div className="card flex flex-wrap items-center justify-between gap-3 border-amber-500/40 bg-amber-500/5 p-4">
           <p className="text-sm">
             Complete identity verification to unlock full account features.
           </p>
@@ -43,17 +65,26 @@ export default async function DashboardPage() {
       )}
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard icon={Wallet} label="Total assets" value={formatCurrency(assets)} />
-        <StatCard
-          icon={Landmark}
-          label="Outstanding loans"
-          value={formatCurrency(debt)}
-        />
-        <StatCard
-          icon={TrendingUp}
-          label="Net worth"
-          value={formatCurrency(assets - debt)}
-        />
+        <StatCard icon={Wallet} label="Total assets" value={assets} accent />
+        <StatCard icon={Landmark} label="Outstanding loans" value={debt} />
+        <StatCard icon={TrendingUp} label="Net worth" value={netWorth} />
+      </div>
+
+      {/* Charts */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="glass p-5 lg:col-span-2">
+          <div className="mb-2 flex items-center justify-between">
+            <h2 className="font-semibold">Net worth trend</h2>
+            <span className="text-xs text-muted-foreground">Last 7 months</span>
+          </div>
+          <BalanceChart data={balanceSeries} />
+        </div>
+        <div className="glass p-5">
+          <h2 className="mb-3 flex items-center gap-2 font-semibold">
+            <PieChart className="h-4 w-4 text-primary" /> Allocation
+          </h2>
+          <AllocationChart data={allocation} />
+        </div>
       </div>
 
       <div>
@@ -94,22 +125,32 @@ export default async function DashboardPage() {
   );
 }
 
+function sumByType(accounts: { type: string; balance: number }[], type: string) {
+  return accounts
+    .filter((a) => a.type === type)
+    .reduce((s, a) => s + Number(a.balance), 0);
+}
+
 function StatCard({
   icon: Icon,
   label,
   value,
+  accent = false,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-  value: string;
+  value: number;
+  accent?: boolean;
 }) {
   return (
-    <div className="card p-5">
+    <div className={accent ? "card card-hover p-5 ring-1 ring-primary/10" : "card card-hover p-5"}>
       <div className="flex items-center gap-2 text-muted-foreground">
         <Icon className="h-4 w-4" />
         <span className="text-sm">{label}</span>
       </div>
-      <p className="mt-2 text-2xl font-bold">{value}</p>
+      <p className="mt-2 text-2xl font-extrabold tracking-tight">
+        <AnimatedCounter value={value} />
+      </p>
     </div>
   );
 }

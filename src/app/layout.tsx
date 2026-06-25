@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Aegis Bank — Modern Digital Banking",
+  title: "Nexus Bank — Modern Digital Banking",
   description:
     "A secure full-stack banking platform: accounts, transfers, savings, loans, and KYC.",
 };

@@ -11,7 +11,7 @@ function SignInButton() {
     <button
       type="submit"
       disabled={pending}
-      className="flex w-full items-center justify-center gap-2 rounded-md bg-chase-navy py-3 text-sm font-bold text-white transition hover:bg-chase-blue disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-2 rounded-md bg-nexus-navy py-3 text-sm font-bold text-white transition hover:bg-nexus-cobalt disabled:opacity-60"
     >
       {pending && <Loader2 className="h-4 w-4 animate-spin" />}
       Sign in
@@ -19,12 +19,12 @@ function SignInButton() {
   );
 }
 
-export function ChaseLoginPanel() {
+export function NexusLoginPanel() {
   const [state, formAction] = useFormState(signIn, null);
 
   return (
-    <div className="w-full rounded-xl bg-white p-7 shadow-2xl ring-1 ring-black/5 sm:max-w-sm">
-      <h2 className="text-lg font-bold text-chase-ink">Sign in to chase.com</h2>
+    <div className="w-full rounded-2xl bg-white p-7 shadow-2xl ring-1 ring-black/5 sm:max-w-sm">
+      <h2 className="text-lg font-bold text-nexus-ink">Sign in to Nexus</h2>
 
       <form action={formAction} className="mt-5 space-y-4">
         <input type="hidden" name="redirect" value="/dashboard" />
@@ -38,7 +38,7 @@ export function ChaseLoginPanel() {
             type="email"
             required
             autoComplete="username"
-            className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-chase-blue focus:ring-2 focus:ring-chase-blue/20"
+            className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-nexus-cobalt focus:ring-2 focus:ring-nexus-cobalt/20"
           />
         </div>
         <div>
@@ -51,7 +51,7 @@ export function ChaseLoginPanel() {
             type="password"
             required
             autoComplete="current-password"
-            className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-chase-blue focus:ring-2 focus:ring-chase-blue/20"
+            className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-nexus-cobalt focus:ring-2 focus:ring-nexus-cobalt/20"
           />
         </div>
 
@@ -71,18 +71,18 @@ export function ChaseLoginPanel() {
 
       <Link
         href="/login"
-        className="mt-3 flex w-full items-center justify-center gap-2 rounded-md border border-chase-navy py-3 text-sm font-bold text-chase-navy transition hover:bg-chase-navy/5"
+        className="mt-3 flex w-full items-center justify-center gap-2 rounded-md border border-nexus-navy py-3 text-sm font-bold text-nexus-navy transition hover:bg-nexus-navy/5"
       >
         <Fingerprint className="h-4 w-4" /> Passwordless sign in
       </Link>
 
       <div className="mt-5 space-y-1.5 text-center text-xs">
-        <Link href="/login" className="block text-chase-blue hover:underline">
+        <Link href="/login" className="block text-nexus-cobalt hover:underline">
           Forgot username/password?
         </Link>
         <p className="text-slate-500">
           Not enrolled?{" "}
-          <Link href="/register" className="font-semibold text-chase-blue hover:underline">
+          <Link href="/register" className="font-semibold text-nexus-cobalt hover:underline">
             Sign up now
           </Link>
         </p>

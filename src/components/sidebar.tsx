@@ -9,9 +9,9 @@ import {
   Wallet,
   ShieldCheck,
   Users,
-  Landmark,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { NexusLogo } from "@/components/home/nexus-logo";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -30,10 +30,8 @@ export function Sidebar({ isAdmin }: { isAdmin: boolean }) {
   return (
     <aside className="hidden w-64 shrink-0 border-r border-border bg-card md:block">
       <div className="flex h-16 items-center gap-2 border-b border-border px-6 text-lg font-extrabold tracking-tight">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Landmark className="h-5 w-5" />
-        </span>
-        Aegis<span className="text-gold">Bank</span>
+        <NexusLogo className="h-8 w-8 text-primary" />
+        Nexus<span className="font-semibold text-muted-foreground">Bank</span>
       </div>
       <nav className="space-y-1 p-4">
         {links.map((item) => {

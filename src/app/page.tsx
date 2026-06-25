@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ShieldCheck, Lock, Award, ArrowRight } from "lucide-react";
-import { ChaseNav } from "@/components/home/chase-nav";
+import { NexusNav } from "@/components/home/nexus-nav";
 import { Hero } from "@/components/home/hero";
 import { ChooseGrid } from "@/components/home/choose-grid";
 import { EditorialSection } from "@/components/home/editorial-section";
@@ -9,21 +9,21 @@ import { Reveal } from "@/components/home/reveal";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white font-sans text-chase-ink">
-      <ChaseNav />
+    <div className="min-h-screen bg-white font-sans text-nexus-ink">
+      <NexusNav />
       <Hero />
 
       {/* Trust strip */}
       <div className="border-y border-slate-100 bg-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-6 py-5 text-sm font-medium text-slate-600">
           <span className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-chase-navy" /> Member FDIC
+            <ShieldCheck className="h-4 w-4 text-nexus-navy" /> Member FDIC
           </span>
           <span className="flex items-center gap-2">
-            <Lock className="h-4 w-4 text-chase-navy" /> 256-bit encryption
+            <Lock className="h-4 w-4 text-nexus-navy" /> 256-bit encryption
           </span>
           <span className="flex items-center gap-2">
-            <Award className="h-4 w-4 text-chase-navy" /> Trusted by 60M+ customers
+            <Award className="h-4 w-4 text-nexus-navy" /> Trusted by 60M+ customers
           </span>
         </div>
       </div>
@@ -31,9 +31,9 @@ export default function Home() {
       <ChooseGrid />
 
       <EditorialSection
-        eyebrow="Investing by J.P. Morgan"
+        eyebrow="Nexus Wealth"
         heading="Grow your wealth with confidence"
-        body="From self-directed investing to dedicated advisory, put a world-class team and a centuries-old institution behind every decision you make."
+        body="From commission-free self-directed investing to dedicated advisory, put a world-class platform and a transparent team behind every decision you make."
         image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80"
         imageSide="left"
         highlights={[
@@ -77,13 +77,13 @@ export default function Home() {
               "url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1920&q=80')",
           }}
         />
-        <div className="absolute inset-0 -z-10 bg-chase-navy/80" />
+        <div className="absolute inset-0 -z-10 bg-nexus-navy/80" />
         <div className="mx-auto max-w-7xl px-6 py-24 text-center text-white">
           <Reveal>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-chase-gold">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-nexus-aqua">
               A relationship that lasts
             </p>
-            <h2 className="mx-auto mt-4 max-w-3xl font-serif text-3xl font-bold leading-tight sm:text-5xl">
+            <h2 className="mx-auto mt-4 max-w-3xl tracking-tight text-3xl font-bold leading-tight sm:text-5xl">
               Banking, lending, and investing — under one trusted roof
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-white/80">
@@ -92,7 +92,7 @@ export default function Home() {
             </p>
             <Link
               href="/register"
-              className="mt-8 inline-flex items-center gap-2 rounded-md bg-white px-7 py-3.5 text-sm font-bold text-chase-navy transition hover:bg-chase-gold hover:text-white"
+              className="mt-8 inline-flex items-center gap-2 rounded-md bg-white px-7 py-3.5 text-sm font-bold text-nexus-navy transition hover:bg-nexus-aqua hover:text-white"
             >
               Open an account <ArrowRight className="h-4 w-4" />
             </Link>

@@ -2,6 +2,7 @@ import { LogOut } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/badge";
+import { MobileNav } from "@/components/mobile-nav";
 import type { Profile } from "@/lib/types";
 
 export function Topbar({ profile }: { profile: Profile }) {
@@ -13,9 +14,10 @@ export function Topbar({ profile }: { profile: Profile }) {
     .toUpperCase();
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-border bg-card px-6">
+    <header className="flex h-16 items-center justify-between border-b border-border bg-card px-4 sm:px-6">
       <div className="flex items-center gap-3">
-        <span className="text-sm text-muted-foreground">KYC:</span>
+        <MobileNav isAdmin={profile.role === "admin"} />
+        <span className="hidden text-sm text-muted-foreground sm:inline">KYC:</span>
         <Badge status={profile.kyc_status} />
       </div>
       <div className="flex items-center gap-3">

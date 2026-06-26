@@ -2,32 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  ArrowLeftRight,
-  Receipt,
-  Wallet,
-  ShieldCheck,
-  Users,
-  Settings,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { navFor } from "@/lib/nav";
 import { NexusLogo } from "@/components/home/nexus-logo";
-
-const nav = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/accounts", label: "Accounts", icon: Wallet },
-  { href: "/transfer", label: "Transfer", icon: ArrowLeftRight },
-  { href: "/transactions", label: "Transactions", icon: Receipt },
-  { href: "/kyc", label: "Verification", icon: ShieldCheck },
-  { href: "/settings", label: "Settings", icon: Settings },
-];
 
 export function Sidebar({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
-  const links = isAdmin
-    ? [...nav, { href: "/admin", label: "Admin", icon: Users }]
-    : nav;
+  const links = navFor(isAdmin);
 
   return (
     <aside className="hidden w-64 shrink-0 border-r border-border bg-card md:block">

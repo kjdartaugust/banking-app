@@ -48,7 +48,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             <p className="mt-5 max-w-xl text-lg text-white/75">{product.tagline}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/register"
+                href="/get-started"
                 className="inline-flex items-center gap-2 rounded-lg bg-nexus-cobalt px-6 py-3 text-sm font-bold text-white shadow-lg shadow-nexus-cobalt/30 transition hover:brightness-110"
               >
                 {product.ctaPrimary} <ArrowRight className="h-4 w-4" />
@@ -124,7 +124,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
               </span>
             </div>
             <Link
-              href="/register"
+              href="/get-started"
               className="mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-7 py-3.5 text-sm font-bold text-nexus-navy transition hover:bg-nexus-aqua hover:text-white"
             >
               {product.ctaPrimary} <ArrowRight className="h-4 w-4" />

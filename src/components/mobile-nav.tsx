@@ -34,10 +34,14 @@ export function MobileNav({ isAdmin }: { isAdmin: boolean }) {
           {/* Drawer */}
           <aside className="absolute left-0 top-0 flex h-full w-72 max-w-[80%] flex-col border-r border-border bg-card shadow-xl">
             <div className="flex h-16 items-center justify-between border-b border-border px-5 text-lg font-extrabold tracking-tight">
-              <span className="flex items-center gap-2">
+              <Link
+                href="/dashboard"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2"
+              >
                 <NexusLogo className="h-8 w-8 text-primary" />
                 Nexus<span className="font-semibold text-muted-foreground">Bank</span>
-              </span>
+              </Link>
               <button aria-label="Close menu" onClick={() => setOpen(false)}>
                 <X className="h-5 w-5" />
               </button>

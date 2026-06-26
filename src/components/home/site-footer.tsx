@@ -14,10 +14,10 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 text-white">
+            <Link href="/" className="flex items-center gap-2 text-white transition-opacity hover:opacity-80">
               <NexusLogo className="h-8 w-8 text-nexus-cobalt" />
               <span className="text-lg font-extrabold tracking-[0.18em]">NEXUS</span>
-            </div>
+            </Link>
             <p className="mt-4 max-w-xs text-sm text-slate-400">
               Modern digital banking engineered for trust, speed, and clarity.
             </p>

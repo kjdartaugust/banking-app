@@ -2,10 +2,42 @@ import Link from "next/link";
 import { NexusLogo } from "@/components/home/nexus-logo";
 
 const columns = [
-  { title: "Banking", links: ["Checking", "Savings & CDs", "Credit Cards", "Auto"] },
-  { title: "Lending", links: ["Home Loans", "Refinance", "Personal Loans", "Business"] },
-  { title: "Invest", links: ["Self-directed", "Advisory", "Retirement", "Travel"] },
-  { title: "Company", links: ["About", "Careers", "Newsroom", "Privacy"] },
+  {
+    title: "Banking",
+    links: [
+      { label: "Checking", href: "/products/checking" },
+      { label: "Savings & CDs", href: "/products/savings" },
+      { label: "Credit Cards", href: "/products/credit-cards" },
+      { label: "Auto", href: "/products/auto" },
+    ],
+  },
+  {
+    title: "Lending",
+    links: [
+      { label: "Home Loans", href: "/products/home-loans" },
+      { label: "Refinance", href: "/products/home-loans" },
+      { label: "Auto Loans", href: "/products/auto" },
+      { label: "Investing", href: "/products/investing" },
+    ],
+  },
+  {
+    title: "Invest & Travel",
+    links: [
+      { label: "Self-directed", href: "/products/investing" },
+      { label: "Advisory", href: "/products/investing" },
+      { label: "Travel rewards", href: "/products/travel" },
+      { label: "Credit cards", href: "/products/credit-cards" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Customer Service", href: "/support" },
+      { label: "Schedule a meeting", href: "/schedule" },
+      { label: "Open an account", href: "/register" },
+      { label: "Sign in", href: "/login" },
+    ],
+  },
 ];
 
 export function SiteFooter() {
@@ -27,9 +59,9 @@ export function SiteFooter() {
               <h4 className="text-sm font-bold text-white">{col.title}</h4>
               <ul className="mt-4 space-y-2.5 text-sm">
                 {col.links.map((l) => (
-                  <li key={l}>
-                    <Link href="/register" className="transition hover:text-white">
-                      {l}
+                  <li key={l.label}>
+                    <Link href={l.href} className="transition hover:text-white">
+                      {l.label}
                     </Link>
                   </li>
                 ))}
